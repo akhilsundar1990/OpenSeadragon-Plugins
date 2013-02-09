@@ -1,14 +1,16 @@
-# no.5 Seajax Utils
+# OpenSeajax Utils
+This is a fork of rsimon's seajax-utils which was is utility library that provides a number of extras to the [Seadragon AJAX viewer] (http://expression.microsoft.com/en-us/gg413362.aspx). 
 
-A utility library that provides a number of extras to the [Seadragon AJAX viewer] (http://expression.microsoft.com/en-us/gg413362.aspx). 
+As Seadragon is no longer supported, the most active development in this space has been on OpenSeadragon (see  )
 
-* no.5 Seajax Utils act as a bridge between Seadragon AJAX and the [Raphael] (http://raphaeljs.com) JavaScript vector drawing & animation library, so that  Raphael drawing elements can be used as overlays on Deep Zoom images. An online
-demo of Raphael integration can be found [here] (http://maps.no5.at/seajax-utils-demo/example.html).
+Please note-- the bulk of this original work was from RSimon although I am changing some of the variable names and function calls so they are compatible with OpenSeadragon
 
-* no.5 Seajax Utils provide additional tile source implementations for OpenStreetMap Mapnik tiles and the TMS tile
-scheme ([as supported by OpenLayers] (http://openlayers.org/dev/examples/tms.html)). An online demo of the OpenStreetMap tile source can be found [here] (http://maps.no5.at/seajax-utils-demo/example-osm.html).
+* OpenSeajax Utils act as a bridge between OpenSeadragon Library (AJAX/Javascript) and the [Raphael] (http://raphaeljs.com) JavaScript vector drawing & animation library, so that  Raphael drawing elements can be used as overlays on Deep Zoom images. 
+* A demo showing rSimon's implementation using  Raphael integration can be found [here] (http://maps.no5.at/seajax-utils-demo/example.html).
 
 ## Getting Started - Adding Raphael Overlays
+
+##BELOW CODE WILL BE UPDATED--- this is code from current seadragon implementation
 
 The file _example-raphael.html_ illustrates how you can add Raphael drawing elements as overlays to a Deep Zoom image hosted on [zoom.it] (http://zoom.it/WwI0). The key part of the code is below. Note that the coordinate system for no.5 Seajax Utils is the original image's pixel coordinates! 
 
@@ -46,6 +48,7 @@ no.5 Seajax Utils are licensed under the MIT License. See the included file 'MIT
 for details.
 
 ## Todos
+* OpenSeadragon implementation.. is a work in progress 
 * Although polygon coordinate transformation seems to work correctly, there's a scaling factor of 2 required which I can't explain (may be because of the way zooming factors are defined in Seajax. See comment in source code of Polygon.js) -> investigate this!
 * Currently, only Marker, Ellipse and Polygon are implemented. All else is yet to come...
 * Need to add an online sample for the TMS tile source
