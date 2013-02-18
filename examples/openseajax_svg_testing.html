@@ -1,0 +1,191 @@
+<head>
+<title>OpenSeaDragon Labs</title>
+
+  <script src="./raphael.js" type="text/javascript"></script>
+  <script type="text/javascript" src="./jquery-1.6.2.min.js"></script>    
+  <script type="text/javascript" src="openseadragon/openseadragon.js"></script>
+  <script type="text/javascript" src="./openseadragon_setup_functions.js"></script>
+<!--  <script type="text/javascript" src="./openseajax-utils.js"></script> -->
+
+ <!-- including all of the source modules for osj to facilitate debugging... -->
+  <script type="text/javascript" src="src/seajax-utils-core.js" ></script>
+  <script type="text/javascript" src="src/Shapes/Ellipse.js" ></script>
+  <script type="text/javascript" src="src/Shapes/Marker.js" > </script>
+  <script type="text/javascript" src="src/Shapes/Polygon.js" ></script>
+<!--  <script type="text/javascript" src="src/Tilesource/OSM.js" > </script>
+  <script type="text/javascript" src="src/Tilesource/TMS.js"> </script> -->
+
+    <style type="text/css">
+                        #osd_svg_container {
+                                width: 70%;
+                                height: 100%;
+                                background-color: black;
+                                border: 1px solid black;
+                                color: white;  /* for error messages, etc. */
+				float: left;
+                        }
+                        #output {
+	                                width: 350px;
+                                border: 1px solid black;
+                                margin: 1em 0em;
+				float: left;
+                        }
+                        #output td {
+                                width: 30%;
+                        }
+                        #output .outputLabel{
+                                font-weight: bold;
+                        }
+
+                        .overlay {
+                                border: 3px solid yellow;
+                        }
+                </style>
+
+	<script>
+    var viewer = null;
+    var Seadragon;
+    Seadragon = OpenSeadragon;
+    OpenSeadragon.Utils = OpenSeadragon;
+   var PRECISION = 3; //used for render mouse function
+
+
+	var simple_box_id = 0;  //I am just creating a global variable that I will increement as I create new boxes...
+
+    function init() {
+        viewer = new Seadragon.Viewer("osd_svg_container");
+         Seadragon.ControlAnchor.TOP_RIGHT;
+        viewer.openDzi("http://sideshowbob.psy.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/DZI_IMAGES/ADRC/20X/ADRC59-155/ADRC59-155_1A_HE.dzi.tif.dzi");
+       OpenSeadragon.addEvent(viewer.element, "mousemove", showMouse);
+      }
+
+	function simple_rectangle()
+		{
+
+		box_color = '#'+Math.floor(Math.random()*16777215).toString(16);
+		simple_box_id = simple_box_id+1;   //keeps track of the divs...
+                var cur_div = document.createElement("div");
+                cur_div.setAttribute("id",'simplebox_'+simple_box_id);
+                cur_div.setAttribute("className","overlay");
+                cur_div.setAttribute("style", "border: 3px solid  "+box_color);
+                document.body.appendChild(cur_div); 
+
+		box_x_start = Math.random();  //returns a # between 0 and 1
+		box_y_start = Math.random();
+		//I'm going to make all the boxes the same height for now.. could just as easily make it random but would have to compute bounds
+								//to make sure box isn't wider than the canvas
+	         var rect = new Seadragon.Rect(box_x_start,box_y_start,0.2,0.4);//(x,y,w,h)
+                   viewer.drawer.addOverlay(cur_div	, rect);//*/
+			
+                }
+
+        //I also want to make the colrs of each of these a diff color... hmm
+
+        // just a convenience method for this example:
+        function getid(id) {
+        return document.getElementById(id);
+                        }
+
+
+//		}
+	
+
+    </script>
+
+</head>
+<body >
+
+<h1>Experimental addons to OpenSeadragon</h1>
+<p>I am experimenting with adding the ability to add dynamic overlays using SVG vector graphics.
+This is based on a port of an existing framework I found on github by rsimon called openseajax
+This should allow a user to draw shapes/annotations on an image that scale with the underling zoom canvas
+Future work will also work on a lightweight database to save and reload the annotations</p>
+
+	<script>
+
+	  Seadragon.Utils.addEvent(window, "load", init);
+
+	</script>
+
+
+
+<script>
+
+ function viva_hispania(){
+                //function should draw a map of spain which of course makes no sense on a brain tumor.. but gotta start somewhere!
+         var points = new Array();
+//        points[0] = new Seadragon.Point(30065, 1278);
+//        points[1] = new Seadragon.Point(30076, 1389);
+//        points[2] = new Seadragon.Point(30116, 1401);
+//        points[3] = new Seadragon.Point(30182, 65373);
+//       points[4] = new Seadragon.Point(30232, 20319);
+//        points[5] = new Seadragon.Point(30223, 1294);
+ //       points[6] = new Seadragon.Point(30163, 1279);
+
+        points[0] = new Seadragon.Point(10000, 10000);
+        points[1] = new Seadragon.Point(10000, 25000);
+        points[2] = new Seadragon.Point(40000, 25000);
+        points[3] = new Seadragon.Point(40000, 40000);
+       points[4] = new Seadragon.Point(30232, 20000);
+        points[5] = new Seadragon.Point(20000, 20000);
+        points[6] = new Seadragon.Point(10000, 10000);
+   
+
+              alert ("Initiate Polygon");
+        var hispania = new No5.OpenSeajax.Shapes.Polygon(points);
+        hispania.getElement().attr({"fill":"#ffffff", "fill-opacity":0.1});
+        hispania.getElement().node.style.cursor = "pointer";
+        hispania.getElement().node.onmouseover = function() {
+                 hispania.getElement().attr({"fill":"#ffffff"});
+                }
+        hispania.getElement().node.onmouseout = function() {
+          hispania.getElement().attr({"fill":"#ffff44"});
+                }
+                 alert ("Add Polygon to Viewer");
+        hispania.attachTo(viewer);
+
+                        }
+
+</script>
+
+
+<!-- I like being able to view mouse coordinates.. and of course this is needed for drawing the shapes as well -->
+
+<div id='nav_box'>
+
+<div>
+<input type=button value="Add Simple Rectangle" onClick="simple_rectangle()">
+<p>Will add a simple randomly sized rectangle to the canvas every time the button is pressed:
+Note this is not using Raphael or SVG, but simple a DIV with a colored border</p>
+<input type=button value="Clear Overlays" onClick="viewer.drawer.clearOverlays()">
+
+
+<input type=button value="Draw an SVG...of spain?" onClick="viva_hispania()">
+
+<table id="output">
+<tr>
+<th class="name"> </th>
+<th class="value">Pixels</th>
+
+<th class="value">Points</th>
+</tr>
+<tr>
+<th>Mouse position</th>
+
+<td id="mousePixels">-</td>
+<td id="mousePoints">-</td>
+</tr>
+<tr>
+<th>Viewport dimensions</th>
+<td id="viewportSizePixels">-</td>
+<td id="viewportSizePoints">--</td>
+
+</tr>
+</table>
+</div>
+</div>
+<div id='osd_svg_container' class='seadragon' ></div>
+
+
+</body>
+

@@ -56,7 +56,7 @@ No5.OpenSeajax.Shapes.Polygon.prototype.attachTo = function(viewer) {
    var p = this.path;
    var w = this.normWidth;
    var h = this.normHeight;
-   viewer.addEventListener("animation", function() { 
+   viewer.addHandler("animation", function() { 
       var zoom = viewer.viewport.getZoom(true);
       canvas.setSize(w * zoom, h * zoom);
       p.scale(zoom, zoom, 0, 0);
