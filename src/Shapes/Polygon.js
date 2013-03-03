@@ -1,4 +1,4 @@
-No5.OpenSeajax.Shapes.Polygon = function(points) {
+OpenSeajax.Shapes.Polygon = function(points) {
    // Get polygon bounding box
    var minX = points[0].x;
    var maxX = minX;
@@ -48,8 +48,8 @@ No5.OpenSeajax.Shapes.Polygon = function(points) {
    this.paper.setSize(this.normWidth, this.normHeight);
 }
 
-No5.OpenSeajax.Shapes.Polygon.prototype.attachTo = function(viewer) {
-   var anchor = No5.OpenSeajax.toWorldCoordinates(viewer, this.origin.x, this.origin.y);
+OpenSeajax.Shapes.Polygon.prototype.attachTo = function(viewer) {
+   var anchor = OpenSeajax.toWorldCoordinates(viewer, this.origin.x, this.origin.y);
    viewer.drawer.addOverlay(this.div, new Seadragon.Rect(anchor.x, anchor.y, 0, 0)); 
 
    var canvas = this.paper;
@@ -63,17 +63,17 @@ No5.OpenSeajax.Shapes.Polygon.prototype.attachTo = function(viewer) {
    });
 }
 
-No5.OpenSeajax.Shapes.Polygon.prototype.getElement = function() {
+OpenSeajax.Shapes.Polygon.prototype.getElement = function() {
    return this.path;
 }
 
-No5.OpenSeajax.Shapes.Polygon.prototype.redraw = function(viewer) {
+OpenSeajax.Shapes.Polygon.prototype.redraw = function(viewer) {
    var zoom = viewer.viewport.getZoom(true);
    this.paper.setSize(this.normWidth * zoom, this.normHeight * zoom);
    this.path.scale(zoom, zoom, 0, 0); 
 } 
 
-No5.OpenSeajax.Shapes.Polygon.prototype.addEventListener = function(evt, listener) {
+OpenSeajax.Shapes.Polygon.prototype.addEventListener = function(evt, listener) {
    Seadragon.Utils.addEvent(this.div, evt, Seadragon.Utils.stopEvent);
    this.div.addEventListener(evt, listener, false);
 }

@@ -1,4 +1,4 @@
-No5.OpenSeajax.Shapes.Ellipse = function(width, height) {
+OpenSeajax.Shapes.Ellipse = function(width, height) {
    this.width = width;
    this.height = height;  
    this.div = document.createElement("div");
@@ -11,9 +11,9 @@ No5.OpenSeajax.Shapes.Ellipse = function(width, height) {
    this.ellipse.node.style.cursor = "pointer";
 }
 
-No5.OpenSeajax.Shapes.Ellipse.prototype.attachTo = function(viewer, x, y) {
-   var center = No5.OpenSeajax.toWorldCoordinates(viewer, x, y);
-   var extent = No5.OpenSeajax.toWorldCoordinates(viewer, this.width, this.height);
+OpenSeajax.Shapes.Ellipse.prototype.attachTo = function(viewer, x, y) {
+   var center = OpenSeajax.toWorldCoordinates(viewer, x, y);
+   var extent = OpenSeajax.toWorldCoordinates(viewer, this.width, this.height);
    viewer.drawer.addOverlay(this.div, new Seadragon.Rect(center.x, center.y, extent.x, extent.y)); 
 
    var e = this.ellipse;
@@ -23,16 +23,16 @@ No5.OpenSeajax.Shapes.Ellipse.prototype.attachTo = function(viewer, x, y) {
    });
 }
 
-No5.OpenSeajax.Shapes.Ellipse.prototype.getElement = function() {
+OpenSeajax.Shapes.Ellipse.prototype.getElement = function() {
    return this.ellipse;
 }
 
-No5.OpenSeajax.Shapes.Ellipse.prototype.redraw = function(viewer) { 
+OpenSeajax.Shapes.Ellipse.prototype.redraw = function(viewer) { 
    var zoom = viewer.viewport.getZoom(true);
    this.ellipse.scale(zoom, zoom, 0, 0); 
 } 
 
-No5.OpenSeajax.Shapes.Ellipse.prototype.addEventListener = function(evt, listener) {
+OpenSeajax.Shapes.Ellipse.prototype.addEventListener = function(evt, listener) {
    Seadragon.Utils.addEvent(this.div, evt, Seadragon.Utils.stopEvent);
    this.img.addEventListener(evt, listener, false);
 }

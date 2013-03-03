@@ -111,17 +111,9 @@ Future work will also work on a lightweight database to save and reload the anno
 
 <script>
 
- function viva_hispania(){
-                //function should draw a map of spain which of course makes no sense on a brain tumor.. but gotta start somewhere!
+ function viva_my_SVG(){
+                //function should draw some random shape.. but gotta start somewhere!
          var points = new Array();
-//        points[0] = new Seadragon.Point(30065, 1278);
-//        points[1] = new Seadragon.Point(30076, 1389);
-//        points[2] = new Seadragon.Point(30116, 1401);
-//        points[3] = new Seadragon.Point(30182, 65373);
-//       points[4] = new Seadragon.Point(30232, 20319);
-//        points[5] = new Seadragon.Point(30223, 1294);
- //       points[6] = new Seadragon.Point(30163, 1279);
-
         points[0] = new Seadragon.Point(10000, 10000);
         points[1] = new Seadragon.Point(10000, 25000);
         points[2] = new Seadragon.Point(40000, 25000);
@@ -131,18 +123,18 @@ Future work will also work on a lightweight database to save and reload the anno
         points[6] = new Seadragon.Point(10000, 10000);
    
 
-              alert ("Initiate Polygon");
-        var hispania = new No5.OpenSeajax.Shapes.Polygon(points);
-        hispania.getElement().attr({"fill":"#ffffff", "fill-opacity":0.1});
-        hispania.getElement().node.style.cursor = "pointer";
-        hispania.getElement().node.onmouseover = function() {
-                 hispania.getElement().attr({"fill":"#ffffff"});
+    //          alert ("Initiate Polygon");
+        var my_SVG = new No5.OpenSeajax.Shapes.Polygon(points);
+        my_SVG.getElement().attr({"fill":"#ffffff", "fill-opacity":0.2});
+        my_SVG.getElement().node.style.cursor = "pointer";
+        my_SVG.getElement().node.onmouseover = function() {
+                 my_SVG.getElement().attr({"fill":"#00ffff"});
                 }
-        hispania.getElement().node.onmouseout = function() {
-          hispania.getElement().attr({"fill":"#ffff44"});
+        my_SVG.getElement().node.onmouseout = function() {
+          my_SVG.getElement().attr({"fill":"#ffff44"});
                 }
-                 alert ("Add Polygon to Viewer");
-        hispania.attachTo(viewer);
+                 alert ("Added Polygon to Viewer");
+        my_SVG.attachTo(viewer);
 
                         }
 
@@ -160,7 +152,7 @@ Note this is not using Raphael or SVG, but simple a DIV with a colored border</p
 <input type=button value="Clear Overlays" onClick="viewer.drawer.clearOverlays()">
 
 
-<input type=button value="Draw an SVG...of spain?" onClick="viva_hispania()">
+<input type=button value="Draw an SVG...of some random shape?" onClick="viva_my_SVG()">
 
 <table id="output">
 <tr>
