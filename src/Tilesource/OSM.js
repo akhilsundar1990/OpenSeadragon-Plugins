@@ -12,7 +12,7 @@
  * pixel size. I.e. the Deep Zoom image dimension is 65.572.864x65.572.864
  * pixels.
  */
-No5.Seajax.Tilesource.OSM = function() {
+Seajax.Tilesource.OSM = function() {
    var osmTileSource = new Seadragon.TileSource(65572864, 65572864, 256, 0);
    osmTileSource.getTileUrl = function(zoom, xTile, yTile) {
       return "http://tile.openstreetmap.org/" + (zoom - 8) + "/" + xTile + "/" + yTile + ".png";

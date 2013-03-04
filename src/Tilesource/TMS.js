@@ -1,7 +1,7 @@
 /**
  * A tilesource implementation for TMS (as supported by OpenLayers). 
  */
-No5.Seajax.Tilesource.TMS = function(baseurl, width, height) {
+Seajax.Tilesource.TMS = function(baseurl, width, height) {
    // TMS has integer multiples of 256 for width/height and adds buffer
    // if necessary -> account for this!
    var bufferedWidth = Math.ceil(width / 256) * 256;

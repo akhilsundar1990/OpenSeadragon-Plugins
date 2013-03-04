@@ -5,6 +5,8 @@ OpenSeajax.Shapes.Polygon = function(points) {
    var minY = points[0].y;
    var maxY = minY;
 
+   var fudge_factor = 1;  //fudge factor for zoom
+
    for (var i=1, len = points.length; i<len; ++i) {
       if (points[i].x < minX)
          minX = points[i].x;
@@ -25,10 +27,12 @@ OpenSeajax.Shapes.Polygon = function(points) {
    this.width = maxX - minX;
    this.height = maxY - minY;
 
+
+
    // Bounding box width and height at zoom level 1
    var maxZoom = viewer.viewport.getMaxZoom();
-   this.normWidth = 2 * this.width / maxZoom;
-   this.normHeight = 2 * this.height / maxZoom
+   this.normWidth = fudge_factor * this.width / maxZoom;
+   this.normHeight = fudge_factor * this.height / maxZoom;
 
    // Create Polygon
    this.div = document.createElement("div");
@@ -36,11 +40,11 @@ OpenSeajax.Shapes.Polygon = function(points) {
 
    // NOTE! There seems to be a factor of 2 required. Might be because of the way
    // Zoom levels are defined in OpenSeajax. But frankly I don't know -> investigate!!
-   var firstPoint = 2 * (points[0].x - minX) / maxZoom + " " + 2 * (points[0].y - minY) / maxZoom;
+   var firstPoint = fudge_factor * (points[0].x - minX) / maxZoom + " " + fudge_factor * (points[0].y - minY) / maxZoom;
 
    var svgFormattedPath = "M" + firstPoint;
    for (var i=1, len = points.length; i<len; ++i) {
-      svgFormattedPath += "L" + 2 * (points[i].x - minX) / maxZoom + " " + 2 * (points[i].y - minY) / maxZoom;
+      svgFormattedPath += "L" + fudge_factor * (points[i].x - minX ) / maxZoom + " " + fudge_factor * (points[i].y - minY) / maxZoom;
    }
    svgFormattedPath += "L" + firstPoint;
 
@@ -52,11 +56,14 @@ OpenSeajax.Shapes.Polygon.prototype.attachTo = function(viewer) {
    var anchor = OpenSeajax.toWorldCoordinates(viewer, this.origin.x, this.origin.y);
    viewer.drawer.addOverlay(this.div, new Seadragon.Rect(anchor.x, anchor.y, 0, 0)); 
 
+
+	//So I am not taking into account the scaling factor which I think is causing it to not scale properly
+
    var canvas = this.paper;
    var p = this.path;
    var w = this.normWidth;
    var h = this.normHeight;
-   viewer.addHandler("animation", function() { 
+   viewer.addHandler("onanimation", function() { 
       var zoom = viewer.viewport.getZoom(true);
       canvas.setSize(w * zoom, h * zoom);
       p.scale(zoom, zoom, 0, 0);
