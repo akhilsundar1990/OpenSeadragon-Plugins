@@ -111,6 +111,33 @@ Future work will also work on a lightweight database to save and reload the anno
 
 <script>
 
+  function svg_Square(){
+
+         var points = new Array();
+        points[0] = new Seadragon.Point(15000, 15000);
+        points[1] = new Seadragon.Point(15000, 20000);
+        points[2] = new Seadragon.Point(20000, 20000);
+        points[3] = new Seadragon.Point(15000, 20000);
+        points[4] = new Seadragon.Point(15000, 15000);
+        var my_SQUARE_SVG = new OpenSeajax.Shapes.Polygon(points);
+
+        var my_SQUARE_SVG = new OpenSeajax.Shapes.Polygon(points);
+        my_SQUARE_SVG.getElement().attr({"fill":"#ffffff", "fill-opacity":0.2});
+        my_SQUARE_SVG.getElement().node.style.cursor = "pointer";
+        my_SQUARE_SVG.getElement().node.onmouseover = function() {
+                 my_SQUARE_SVG.getElement().attr({"fill":"#00ffff"});
+                }
+        my_SQUARE_SVG.getElement().node.onmouseout = function() {
+          my_SQUARE_SVG.getElement().attr({"fill":"#ffff44"});
+                }
+              //   alert ("Added Polygon to Viewer");
+        my_SQUARE_SVG.attachTo(viewer);
+
+
+
+
+			}
+
  function viva_my_SVG(){
                 //function should draw some random shape.. but gotta start somewhere!
          var points = new Array();
@@ -118,16 +145,19 @@ Future work will also work on a lightweight database to save and reload the anno
         points[1] = new Seadragon.Point(5000, 7000);
         points[2] = new Seadragon.Point(9000, 9000);
         points[3] = new Seadragon.Point(15000, 15000);
-       points[4] = new Seadragon.Point(25232, 25000);
+        points[4] = new Seadragon.Point(25232, 25000);
         points[5] = new Seadragon.Point(15000, 20000);
         points[6] = new Seadragon.Point(5000, 5000);
+
+
+
    
 
     //          alert ("Initiate Polygon");
         var my_SVG = new OpenSeajax.Shapes.Polygon(points);
 
     //          alert ("Initiate Polygon");
-        var my_SVG = new No5.OpenSeajax.Shapes.Polygon(points);
+        var my_SVG = new OpenSeajax.Shapes.Polygon(points);
         my_SVG.getElement().attr({"fill":"#ffffff", "fill-opacity":0.2});
         my_SVG.getElement().node.style.cursor = "pointer";
         my_SVG.getElement().node.onmouseover = function() {
@@ -156,6 +186,7 @@ Note this is not using Raphael or SVG, but simple a DIV with a colored border</p
 
 
 <input type=button value="Draw an SVG...of some random shape?" onClick="viva_my_SVG()">
+<input type=button value="Draw a square SVG.." onClick="svg_Square()">
 
 <table id="output">
 <tr>

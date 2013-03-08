@@ -5,7 +5,8 @@ OpenSeajax.Shapes.Polygon = function(points) {
    var minY = points[0].y;
    var maxY = minY;
 
-   var fudge_factor = 1;  //fudge factor for zoom
+   var x_fudge_factor = 1;  //fudge factor for zoom
+   var y_fudge_factor = 2;  //fudge factor for scaling-- probably related to asepct ratio
 
    for (var i=1, len = points.length; i<len; ++i) {
       if (points[i].x < minX)
@@ -27,12 +28,13 @@ OpenSeajax.Shapes.Polygon = function(points) {
    this.width = maxX - minX;
    this.height = maxY - minY;
 
+   aspectRatio = viewer.viewport.getAspectRatio();
 
 
    // Bounding box width and height at zoom level 1
    var maxZoom = viewer.viewport.getMaxZoom();
-   this.normWidth = fudge_factor * this.width / maxZoom;
-   this.normHeight = fudge_factor * this.height / maxZoom;
+   this.normWidth =  this.width / maxZoom;
+   this.normHeight = this.height / maxZoom;
 
    // Create Polygon
    this.div = document.createElement("div");
@@ -40,11 +42,13 @@ OpenSeajax.Shapes.Polygon = function(points) {
 
    // NOTE! There seems to be a factor of 2 required. Might be because of the way
    // Zoom levels are defined in OpenSeajax. But frankly I don't know -> investigate!!
-   var firstPoint = fudge_factor * (points[0].x - minX) / maxZoom + " " + fudge_factor * (points[0].y - minY) / maxZoom;
+   var firstPoint = (points[0].x - minX) / maxZoom + " " +  (points[0].y - minY) / maxZoom;
+
+   
 
    var svgFormattedPath = "M" + firstPoint;
    for (var i=1, len = points.length; i<len; ++i) {
-      svgFormattedPath += "L" + fudge_factor * (points[i].x - minX ) / maxZoom + " " + fudge_factor * (points[i].y - minY) / maxZoom;
+      svgFormattedPath += "L" +  (points[i].x - minX ) / maxZoom + " " +  (points[i].y - minY) / maxZoom;
    }
    svgFormattedPath += "L" + firstPoint;
 
