@@ -272,48 +272,26 @@ function drawPoi(clr) {
 
 
 function create_main_annotation_windowbox() {
-
-	mainlayers_div = layers_layout.cells('a');
-	mainlayers_div.setText('');
-	formStructure0 = [{
-			type: "settings",
-			position: "label-top"
-		}, {
-			type: "select",
-			id: "poicolor",
-			name: "poicolor",
-			width: 100,
-			label: "Color",
-			options: [{
-					text: "Red",
-					value: "FF0000"
-				}, {
-					text: "Green",
-					value: "00FF00"
-				}, {
-					text: "Blue",
-					value: "0000FF"
-				}
-			]
-		}, {
-			type: "button",
-			name: "poi",
-			width: 100,
-			offsetTop: 2,
-			value: "Add POI"
-		},
-	];
-	myForm0 = mainlayers_div.attachForm(formStructure0);
-
-	myForm0.attachEvent("onButtonClick", function (id) {
-		if (id == "poi") //defines addition
-		{
-			poicolor = document.getElementsByName("poicolor")[0].value;
-			drawPoi(poicolor);
-		}
-	});
-
-	sections_div = layers_layout.cells('b');
+	/*newly generated annotations using annotationState function calls go in here will go in here */
+	/*code needs to be redone...
+	
+	/*	the annotation state objects go i nhere... */
+	
+	annotation_win  = dhxWins.createWindow("annotation_view", 400, 50, 600, 600);
+	annotation_win.setText("Annotations");
+				
+			
+	annotation_win.button("close").hide();
+	annotation_win.button("minmax1").hide();
+	annotation_win.button("park").hide();
+	annotation_win.addUserButton("hide", 0, 'Hide', 'hide');
+    	annotation_win.button('hide').attachEvent("onClick", function() {  annotation_win.hide() } );				
+	
+	
+	annotater_layout = annotation_win.attachLayout('3U');
+	
+	
+	sections_div = annotater_layout.cells('b');
 	sections_div.setText('');
 
 	formStructure1 = [{
@@ -331,13 +309,10 @@ function create_main_annotation_windowbox() {
 	myForm1.attachEvent("onButtonClick", function (id) {
 		if (id == "save") //defines addition
 		{
-			poisdata = "";
-			for (var k in defn) {
-				poisdata += document.getElementById("current_experiment").value + ";" + defn[k] + ";" + data_drw[k] + "|";
+			//do something !!!
+			alert("I saved the Day-ta-- but not really... ")
 
-			}
-			poisdata = poisdata.substr(0, poisdata.length - 1);
-			$.ajax({
+			/*$.ajax({
 				type: "post",
 				data: {
 					textData: poisdata
@@ -347,93 +322,99 @@ function create_main_annotation_windowbox() {
 					alert(data);
 				}
 			});
-		}
+		*/
 	});
 	layers_div = layers_layout.cells('c');
 
+	dhx_img_path = "dsa-common-files/codebase/imgs/"; //there is a way to set this globally
+
+	roi_list = layers_div.attachGrid();
+	roi_list.setImagePath(dhx_img_path);
+	roi_list.setHeader("ID,Type,Color,Status");
+	roi_list.setColAlign("center,center,center,center");
+	roi_list.setColTypes("ro,ro,ro,ro");
+	roi_list.setColSorting("str,str,str,str");
+	roi_list.init();
+	roi_list.setSkin("dhx_web");
 
 
-	gridPois = layers_div.attachGrid();
-	gridPois.setImagePath("dsa-common-files/codebase/imgs/");
-	gridPois.setHeader("ID,Type,Color,Status");
-	gridPois.setColAlign("center,center,center,center");
-	gridPois.setColTypes("ro,ro,ro,ro");
-	gridPois.setColSorting("str,str,str,str");
-	gridPois.init();
-	gridPois.setSkin("dhx_web");
+	roi_list.attachEvent("onRowSelect", function (id, ind) {
+	
+	//ind == 3 means I am trying to toggle on/off a given ROI
+	
+	if (ind == 3) {
+		/*toggle on/off the selected ROI... */
+		/*each eyeball was also given it's own ID.... */
+		var valcell = gridPois.cells(id, 0).getValue();
+		var b2 = document.getElementById("eye" + valcell).src;
 
-
-	gridPois.attachEvent("onRowSelect", function (id, ind) {
-		if (ind == 3) {
-			var valcell = gridPois.cells(id, 0).getValue();
-			var b2 = document.getElementById("eye" + valcell).src;
-			viewer.drawer.clearOverlays();
-			if (b2.substring(b2.length - 11, b2.length) == "openEye.gif") {
-				var tempvar;
-				document.getElementById("eye" + valcell).src = "dsa-common-files/imgs/closedEye.gif";
-				tempvar = defn[valcell].split(";");
-				defn[valcell] = tempvar[0] + ";" + tempvar[1] + ";0";
-
-			} else {
-				var tempvar;
-				document.getElementById("eye" + valcell).src = "dsa-common-files/imgs/openEye.gif";
-				tempvar = defn[valcell].split(";");
-				defn[valcell] = tempvar[0] + ";" + tempvar[1] + ";1";
+		viewer.drawer.clearOverlays();
+		
+		/* Simple way to add an ROI to the canvas is done like this:..... */
+		
+		/*adding a point of interest was first done this way:
+		1.  get X,Y of selected point
+		
+		2.  create a OpenSeadargon Rectangle starting at the point and 0.025x0.0256 width/height...
+		3.  Create a new DOM element to hold the DIV that I am creating...
+		4.  The new DOM object then gets added to the document body as a child element
+			You must remember to give the element an ID or at least assign it to a variable
+			so you can manipualte it
+		5.  Pick a color for the POI-- in this case I had three to choose from red/green/blue
+		6.  The helper function get_url_for_poi basically returns a URL pointing to three different
+		push pin images I found
+		7.  The rectangle can then be added to the viewer using viewer.drawer.addOverlay;
+		    The addOverlay functions requires the object you want to bind, and the rectangle or point
+		    where you want to bind it to; I haven't played aroudn with the optimal rectangle size to use
+		    for this 
+		*/
+		if( shape_type  == 'add_poi' )
+			{
+			/*this needs to be called be an event that grabs the current x and y coords */
+			var pointX = selected_x_point;
+			var pointY = selected_y_point;
+			var osd_rect = new Seadragon.Rect(parseFloat(pointX), parseFloat(pointY), 0.025, 0.025); //(x,y,w,h)
+			var poi_image = document.createElement("img");
+			poi_image.src = get_url_for_poi_image( color_to_use );
+			document.body.appendChild(poi_image);
+			viewer.drawer.addOverlay(poi_image, osd_rect);
 			}
-			/* k is apparently the shape ID or the position of the po in the list.... */
-			for (var k in defn) {
-				var temvar = defn[k].split(";");
-				if (temvar[0] == "poi") {
-					if (temvar[2] == "1") {
-						var temprect = data_drw[k].split(",");
-						var pointX = temprect[0];
-						var pointY = temprect[1];
-						var nucleus_rect = new Seadragon.Rect(parseFloat(pointX), parseFloat(pointY), 0.025, 0.025); //(x,y,w,h)
-						var poi_image = document.createElement("img");
+		else if ( shape_type == 'add_rect' )			
+			{
+				
+				var temprect = data_drw[k].split(";");
+				var point1 = temprect[0].split(",");
+				var point2 = temprect[1].split(",");
+				/* need to modify logic here-- a rectangle can be drawn from top to bottom or bottom to top... 
+				need to add a greateR>less than check*/
+				var x1 = parseFloat(point1[0]);
+				var y1 = parseFloat(point1[1]);
+				var x2 = parseFloat(point2[0]);
+				var y2 = parseFloat(point2[1]);
+				var h = Math.abs(y2-y1);
+				var w = Math.abs(x2-x1);
 
-						poi_image.src = get_url_for_poi_image(tempvar[1]);
-
-						document.body.appendChild(poi_image);
-						viewer.drawer.addOverlay(poi_image, nucleus_rect);
-					}
-				}
-				if (temvar[0] == "rect") {
-					if (temvar[2] == "1") {
-						var temprect = data_drw[k].split(";");
-						var point1 = temprect[0].split(",");
-						var point2 = temprect[1].split(",");
-						/* need to modify logic here-- a rectangle can be drawn from top to bottom or bottom to top... need to add a greateR>less than check
-							var x1 = parseFloat(point1[0]);
-							var y1 = parseFloat(point1[1]);
-							var x2 = parseFloat(point2[0]);
-							var y2 = parseFloat(point2[1]);
-							var h = Math.abs(y2-y1);
-							var w = Math.abs(x2-x1);
-
-							var cur_div = document.createElement("div");
-							cur_div.setAttribute("style", "border: 2px solid "+temvar[1]);
-							document.body.appendChild(cur_div);
-							var rect = new Seadragon.Rect(x1,y1,w,h);//(x,y,w,h)
-							viewer.drawer.addOverlay(cur_div, rect);
-						 }
-					}
-					if ( temvar[0]=="circ") {
-						 if(temvar[2]=="1"){
-							var temprect = data_drw[k].split(";");
-							var point1 = temprect[0].split(",");
-							var point2 = temprect[1].split(",");
-							var x1 = parseFloat(point1[0]);
-							var y1 = parseFloat(point1[1]);
-							var x2 = parseFloat(point2[0]);
-							var y2 = parseFloat(point2[1]);
+				var cur_div = document.createElement("div");
+				cur_div.setAttribute("style", "border: 2px solid "+shape_color);
+				document.body.appendChild(cur_div);
+				var rect = new Seadragon.Rect(x1,y1,w,h);//(x,y,w,h)
+				viewer.drawer.addOverlay(cur_div, rect);
+			 }
+	
+			else if  ( shape_type=="circ") {
+				var point1 = temprect[0].split(",");
+				var point2 = temprect[1].split(",");
+				var x1 = parseFloat(point1[0]);
+				var y1 = parseFloat(point1[1]);
+				var x2 = parseFloat(point2[0]);
+				var y2 = parseFloat(point2[1]);
 				/* tihs logic is wrong as well... doesn't make sense in terms of how its drawing the roi */
-						var w = Math.abs(x2 - x1);
-
-						var cur_div = document.createElement("div");
-						cur_div.setAttribute("style", "border: 2px solid " + temvar[1] + "; border-radius: 50%;");
-						document.body.appendChild(cur_div);
-						var rect = new Seadragon.Rect(x1, y1, w, w); //(x,y,w,h)
-						viewer.drawer.addOverlay(cur_div, rect);
+				var w = Math.abs(x2 - x1);
+				var cur_div = document.createElement("div");
+				cur_div.setAttribute("style", "border: 2px solid " + shape_color + "; border-radius: 50%;");
+				document.body.appendChild(cur_div);
+				var rect = new Seadragon.Rect(x1, y1, w, w); //(x,y,w,h)
+				viewer.drawer.addOverlay(cur_div, rect);
 					}
 				}
 			}
@@ -443,7 +424,6 @@ function create_main_annotation_windowbox() {
 
 
 	layers_div.setText('');
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	poi_win_old = dhxWins.createWindow("annotate_win", 400, 50, 600, 600);
 	poi_win_old.setText("Annotations Window");
