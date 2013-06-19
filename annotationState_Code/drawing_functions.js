@@ -2,7 +2,6 @@
 these may not be needed depending on your application....*/
 
 
-
 var poi_win_old;
 var point_list;
 var overlay;
@@ -52,16 +51,12 @@ function aperio_region_to_osdAnnotation(annotation_xml_file,region_id)
 						
 							});
 /*
-
 			/*var overlay_obj = $.extend({},AnnotationOverlay.prototype.OPTIONS);
 			overlay_obj = {type:'freehand', points:point_list};
-		
 			overlay = AnnotationOverlay.fromValueObject(overlay_obj);
 			overlay.attachTo(viewer);
 			annotationState.annotations.push(overlay);
-	
 	}
-
 
 */
 
@@ -88,84 +83,82 @@ function setup_wsi_toolbar(id) {
 }
 
 
-
+/*this window is generated using dhtmlx and the window function in that framework.. */
 function gen_aperio_annotation_box(target_win_id)
 	{
 	/* This is inherited code from Dan--- this generates the basic grid/layout needed to render an Aperio XML type document */
+	aperio_win = dhxWins.createWindow("aperio_xml", 400, 50, 600, 600);
+	aperio_win.setText("Aperio Annotations Window");
+				
+			
+	aperio_win.button("close").hide();
+	aperio_win.button("minmax1").hide();
+	aperio_win.button("park").hide();
+	aperio_win.addUserButton("hide", 0, 'Hide', 'hide');
+    aperio_win.button('hide').attachEvent("onClick", function() {  aperio_win.hide() } );				
+	/*removing min/max and park buttons in the window--- resizing this window to full screen looks aweful
+	and also adding a button to hide it */
+
+	/*layers layout is the object for the 4 separate panels I have within the window I am creating */
+	layers_layout = aperio_win.attachLayout('4U' );
+
+	mainlayers_div = layers_layout.cells('a');
 	
-		aperio_win = dhxWins.createWindow("aperio_xml", 400, 50, 600, 600);
-				aperio_win.setText("Aperio Annotations Window");
-				
-				//aperio_win.setImagePath("imgs/");
-				//aperio_win.setSkin('dhx_web');
-
-				
-				aperio_win.button("close").hide();
-				aperio_win.button("minmax1").hide();
-				aperio_win.button("park").hide();
-				aperio_win.addUserButton("hide", 0, 'Hide', 'hide');
-        aperio_win.button('hide').attachEvent("onClick", function() {  aperio_win.hide() } );				
-
-			//dhxWins.setSkin('dhx_web');
-
-				layers_layout = aperio_win.attachLayout('4U' );
-//				layers_layout = aperio_win.attachLayout('4U', 'dhx_skyblue');
-				//icons at top were not rendering properly with this skin-- look into
-
-				mainlayers_div = layers_layout.cells('a');
-				aperio_xml_filegrid = mainlayers_div.attachGrid();
-				aperio_xml_filegrid.setImagePath("dsa-common-files/codebase/imgs/");
-
-				aperio_xml_filegrid.setHeader("Annotation File,filename");
-				// grid1.setInitWidths("100");
-				//aperio_xml_filegrid.setColAlign("center");
-				aperio_xml_filegrid.setColTypes("ro,ro");
-				aperio_xml_filegrid.setColSorting("str,ro");
-				
-				aperio_xml_filegrid.init();
-				aperio_xml_filegrid.setSkin("dhx_web");
-				mainlayers_div.setText('');
-				/* need to add an onclick handler to this grid box as well... */
-
-
-				var 		XMLResponse ;	
-
-				aperio_xml_filegrid.attachEvent("onRowSelect", function(id,ind){
-								/* Now load the appropriate XML and clear the other data... */
-					
-					
-					var xml_filename = aperio_xml_filegrid.cellById(id,1).getValue();
-					
-					aperioxml_annotation = getAperioXML_document( xml_filename );
-				/*this aperioxml_annotation now contains the entire xml document I needed... I may need a callback function for this */
-					/*grid 1 will be renamed.. this currently contains the list of labeled regions... */
+	/*aperio xml file grid lists all of the XML files I have foudn that are associated with a given slide*/
 	
-						$('Annotation', aperioxml_annotation).each(function(){
-						grid1.addRow(this.getAttribute("Id"),"Annotation " + this.getAttribute("Id"),this.getAttribute("Id"));
-											linecolor = this.getAttribute("LineColor").toString(16);
-											linecolor =(linecolor.length < 6) ? "0" + linecolor : linecolor;
-						/*I need to now load this data into the grid1 spot... */
-											});
-						
-									});
-				
-				sections_div = layers_layout.cells('b');
-				grid1 = sections_div.attachGrid();
-				grid1.setImagePath("dsa-common-files/codebase/imgs/");
-				grid1.setHeader("Annotations");
-				grid1.setColTypes("ro");
-				grid1.setColSorting("str");
-				grid1.init();
-				grid1.setSkin("dhx_web");
-				
-				grid1.attachEvent("onRowSelect", function(id,ind){
+	aperio_xml_filegrid = mainlayers_div.attachGrid();
+	aperio_xml_filegrid.setImagePath("dsa-common-files/codebase/imgs/");
+	aperio_xml_filegrid.setHeader("Annotation File,filename");
+	aperio_xml_filegrid.setColTypes("ro,ro");
+	aperio_xml_filegrid.setColSorting("str,ro");
+	/*when debug is done, will actually hide the 2nd column-- doesn't need to be displayed */
+	
+	aperio_xml_filegrid.init();
+	aperio_xml_filegrid.setSkin("dhx_web");
+	mainlayers_div.setText('');
+	/* need to add an onclick handler to this grid box as well... */
+
+	
+	var XMLResponse ;	
+	aperio_xml_filegrid.attachEvent("onRowSelect", function(id,ind){
+	/* Event is fired when a user picks an XML annotation file to load
+	It loads the appropriate XML and clear the other data... */		
 					
-					grid2.clearAll();
-					grid3.clearAll();
+	var xml_filename = aperio_xml_filegrid.cellById(id,1).getValue();			
+	aperioxml_annotation = getAperioXML_document( xml_filename );
+	/*this aperioxml_annotation now contains the entire xml document I needed... 
+	I may need a callback function for this */
+	/*grid 1 will be renamed.. this currently contains the list of labeled regions... */
+	
+	
+	/*DELETE THIS CODE AND REPLACE WITH FUNCTION ABOVE..... */
+	$('Annotation', aperioxml_annotation).each(function(){
+			grid1.addRow(this.getAttribute("Id"),"Annotation " + this.getAttribute("Id"),this.getAttribute("Id"));
+			linecolor = this.getAttribute("LineColor").toString(16);
+			linecolor =(linecolor.length < 6) ? "0" + linecolor : linecolor;
+						});	
+				});
+		
+		/*grid1 contains the layers/annotations the user generated--- each layer then consists of regions */
+		
+		/*consider getting rid of sections_div and just attaching grid 1 directly */
+		/*will make the image path a global variable as I reuse it all the time */
+		sections_div = layers_layout.cells('b');
+		grid1 = sections_div.attachGrid();
+		grid1.setImagePath("dsa-common-files/codebase/imgs/");
+		grid1.setHeader("Annotations");
+		grid1.setColTypes("ro");
+		grid1.setColSorting("str");
+		grid1.init();
+		grid1.setSkin("dhx_web");
+				
+		grid1.attachEvent("onRowSelect", function(id,ind){			
+			grid2.clearAll();
+			grid3.clearAll();
 					
-					XMLResponse = aperioxml_annotation;
-				$('Annotation', XMLResponse).each(function(){
-					if (this.getAttribute("Id") == id) {
+			XMLResponse = aperioxml_annotation;
+			$('Annotation', XMLResponse).each(function(){
+				if (this.getAttribute("Id") == id) {
 					grid2.addRow(1,["Id:",this.getAttribute("Id")],1);	
 					grid2.addRow(2,["Name:",this.getAttribute("Name")],2);
 					grid2.addRow(3,["ReadOnly:",this.getAttribute("ReadOnly")],3);
@@ -189,14 +182,15 @@ function gen_aperio_annotation_box(target_win_id)
 					var red_image = "<img id='redImage' src='dsa-common-files/codebase/imgs/red1.gif' style='border: #707070 1px solid; width: 16px; height: 16px; cursor: pointer;'>";
 					var blue_image = "<img id='blueImage' src='dsa-common-files/codebase/imgs/blue1.gif' style='border: #707070 1px solid; width: 16px; height: 16px; cursor: pointer;'>";
 					var green_image= "<img id='greenImage' src='dsa-common-files/codebase/imgs/green1.gif' style='border: #707070 1px solid; width: 16px; height: 16px; cursor: pointer;'>"; 
-					
-					
-					
+					/* the blue/green/red boxes can likely be removed or changed--- this was added because I wanted
+					to have the ability to recolor an ROI dynamically-- and chose those three colors to start */
+					/*also the eyye open/close should allow me to click a set of ROI's on and off... */
+				
+					/*grid 3 should be region_infogrid */
 					$('Region', this).each(function(){
 							grid3.addRow(this.getAttribute("Id"),["<img id='eyeImage"+this.getAttribute("Id")+"' src=" + eye_open_url + eye_style + ">", "Layer " + this.getAttribute("Id"),this.getAttribute("Length"),this.getAttribute("Area"),this.getAttribute("Zoom"),red_image,green_image,blue_image],this.getAttribute("Id"));
 						//	document.getElementById("txtPlots").value+="y;"+linecolor+"|";
-												
-												})
+													})
 											}
 										})
 															
@@ -216,144 +210,38 @@ function gen_aperio_annotation_box(target_win_id)
 				/* grid2.attachEvent("onRowSelect", function(id,ind){
 					alert ("Id: " + id + " Index: " + ind);
 				}); */
-				
+
+				/*grid3 is the 4th box that contains the ROI info */
+
 				data_div.setText('');
 				layers_div = layers_layout.cells('d');
 				grid3 = layers_div.attachGrid();
-				//grid3.setImagePath("./codebase/imgs/");
 				grid3.setHeader("Visible,Layer,Length,Area,Zoom,Red,Green,Blue");;
-				// grid3.setInitWidths("100");
-				//grid3.setColAlign("center, center, center, center");
 				grid3.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro");
 				grid3.setColSorting("str,str,str,str,str,str,str,str");	
-				grid3.enableKeyboardSupport(false);			
+				grid3.enableKeyboardSupport(false);		/*need to see why this was disabled */
 				grid3.init();
 				grid3.setSkin("dhx_web");
 				grid3.attachEvent("onRowSelect", function(id,ind){
 
-
-				/*	var canvas = document.getElementById('annotationCanvas');
-					var context = canvas.getContext('2d');	  
-					context.clearRect ( 0 , 0 , 1000 , 500 );
-				*/
-				
+				//CODE IS DEPRECATED  THIS IS USING A CANVAS BASED DRAWING AND ONLY WORKS ON NON ZOOMABLE CANVASES
+				//REPLACE WITH AnnotationState calls ... 
 				/*
-					var arrCurves;
-					if(ind==0)
-					{
-						//var a = parseInt(id) + 1;
-						var b=document.getElementById("eyeImage"+id).src;
-						//alert (b.substring(b.length-13,b.length));
-						if(b.substring(b.length-11,b.length)=="openEye.gif")
-						{
 				
-							var strPlot = document.getElementById("txtPlots").value;
-							strPlot = strPlot.substr(0, (strPlot.length - 1));
-							arrCurves = strPlot.split("|");
-							var plot = arrCurves[parseInt(id)-1].split(";");
-							arrCurves[parseInt(id)-1] = "n;" + plot[1];
-							document.getElementById("txtPlots").value = "";
-							for (var i=0; i<arrCurves.length; i++) {
-								document.getElementById("txtPlots").value+=arrCurves[i]+"|";
-							}
-
-							document.getElementById("eyeImage"+id).src="http://sideshowbob.psy.emory.edu/dan1000_livedev/dg-Pathtools/seadragon_js/codebase/imgs/closedEye.gif";
-						}
-						else
-						{
-							var strPlot = document.getElementById("txtPlots").value;
-							strPlot = strPlot.substr(0, (strPlot.length - 1));
-							arrCurves = strPlot.split("|");
-							var plot = arrCurves[parseInt(id)-1].split(";");
-							arrCurves[parseInt(id)-1] = "y;" + plot[1];
-							document.getElementById("txtPlots").value = "";
-							for (var i=0; i<arrCurves.length; i++) {
-								document.getElementById("txtPlots").value+=arrCurves[i]+"|";
-							}
-
-							document.getElementById("eyeImage"+id).src="http://sideshowbob.psy.emory.edu/dan1000_livedev/dg-Pathtools/seadragon_js/codebase/imgs/openEye.gif";
-						}
-					}
-					if(ind==5)
-					{
-						var strPlot = document.getElementById("txtPlots").value;
-						strPlot = strPlot.substr(0, (strPlot.length - 1));
-						arrCurves = strPlot.split("|");
-						var plot = arrCurves[parseInt(id)-1].split(";");
-						arrCurves[parseInt(id)-1] = plot[0] + ";FF0000";
-						document.getElementById("txtPlots").value = "";
-						for (var i=0; i<arrCurves.length; i++) {
-							document.getElementById("txtPlots").value+=arrCurves[i]+"|";
-						}
-
-						grid3.setRowColor(grid3.getSelectedId(), 'red');
-					}
-					if(ind==6)
-					{
-						var strPlot = document.getElementById("txtPlots").value;
-						strPlot = strPlot.substr(0, (strPlot.length - 1));
-						arrCurves = strPlot.split("|");
-						var plot = arrCurves[parseInt(id)-1].split(";");
-						arrCurves[parseInt(id)-1] = plot[0] + ";00FF00";
-						document.getElementById("txtPlots").value = "";
-						for (var i=0; i<arrCurves.length; i++) {
-							document.getElementById("txtPlots").value+=arrCurves[i]+"|";
-						}
-						grid3.setRowColor(grid3.getSelectedId(), 'green');
-					}
-					if(ind==7)
-					{
-						var strPlot = document.getElementById("txtPlots").value;
-						strPlot = strPlot.substr(0, (strPlot.length - 1));
-						arrCurves = strPlot.split("|");
-						var plot = arrCurves[parseInt(id)-1].split(";");
-						arrCurves[parseInt(id)-1] = plot[0] + ";0000FF";
-						document.getElementById("txtPlots").value = "";
-						for (var i=0; i<arrCurves.length; i++) {
-							document.getElementById("txtPlots").value+=arrCurves[i]+"|";
-						}
-						grid3.setRowColor(grid3.getSelectedId(), 'blue');
-					}
-					// alert (document.getElementById("txtPlots").value);
-					var counter = 0;
-					var check;
-					$('Region', XMLResponse2).each(function(){
-						check = arrCurves[counter].split(";");
-						//alert (check[0] + ":" + check[1]);
-						if (check[0] == "y") {					
-							$('Vertices', this).each(function(){
-							  var data = [];
-								//scaling factor gets set here....
-								 scale_factor = 2500;
-								///the 500 is wrong for this image... i need to scale it
-								dzi_x_pixels = viewer.viewport.contentSize.x;	
-								dzi_y_pixels = viewer.viewport.contentSize.y  ;
-								aspect_ratio = dzi_y_pixels/dzi_x_pixels;
-
-							  $('Vertex', this).each(function(){
-								var row = {};
-								//row.X = (this.getAttribute("X")/$("#txtconstant").val());
-								//row.Y = (this.getAttribute("Y")/$("#txtconstant").val());
-								row.X = (this.getAttribute("X")/( dzi_x_pixels) *500  );
-								row.Y = (this.getAttribute("Y")/( dzi_y_pixels) * (aspect_ratio *500) );
-							   data.push(row);
-							  })
-							  var colorcode = check[1];
-							  setTimeout(function() { draw(data, colorcode) }, 1000);
-							})
-						}
-						counter = counter + 1;
+				OF NOTE , although the code now is gone... a set of functions was called..
+				in the case of ind == 0, this means the visible state of the roi should be toggled
+				if ind==5 it means it should recolor it blue, ig ind==6 green ind==7 red...
+				*/
 					})
-*/
-				});
-				
-				layers_div.setText('');
-
-				//dhxWins.window("anotation_xml").hide();
-
+				});  //may be an extra
+					layers_div.setText('');
+		//dhxWins.window("anotation_xml").hide();  nice to hide the object after creation
 	}
 
 
+/*simple helper function--- for now I have sdifferent colored pins depending on which
+color was chosen-- the image just gets appended as a DIV--- should change this to use one
+pin and apply some sort of color filter to it */
 
 function get_url_for_poi_image(pin_color) {
 	if (pin_color == 'FF0000' || pin_color == 'red') {
@@ -381,7 +269,6 @@ function drawPoi(clr) {
 	document.getElementById("clicked_item").value = "poi";
 	document.getElementById("line_color").value = clr;
 }
-
 
 
 function create_main_annotation_windowbox() {
