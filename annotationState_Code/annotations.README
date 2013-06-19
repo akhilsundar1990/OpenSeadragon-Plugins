@@ -1,0 +1,67 @@
+Files:
+drawing_functions is deperecated drawing code before I moved to the annotations.js framework
+this is using other way of adding elements... which I have moved away from
+
+
+
+
+
+
+
+include annotations.js at the top of your script
+
+
+annotation has a default object called
+
+AnnotationState is the main object, and then I create an instance of this which is also connected to the OpenSeadragon viewer object
+
+
+
+In my case, the Openseadragon viewer is called in my case by doing
+
+viewer = new OpenSeadragon('viewer');
+//the viewer in this case is also the div the viewer is living
+
+
+
+my_square = { type:'rect', points: [ pt1,pt2], label: 'rich rocks'}
+
+
+
+aperio_object_list = new Array();
+
+ $('Annotation',aperioxml_annotation).each( function () 
+   {
+     annotation_type =  this.getAttribute('Type');
+//alert(annotation_type);
+    $('Region',this).each(  function()  {
+   var region_name = this.getAttribute('Id');
+ 
+       
+ var pt_array = new Array();
+  dzi_x_pixels = viewer.viewport.contentSize.x;   
+   dzi_y_pixels = viewer.viewport.contentSize.y  ;
+
+
+    var row = new OpenSeadragon.Point();
+       
+      $('Vertex', this).each(function(){
+       row.x = (this.getAttribute("X")/( dzi_x_pixels)  );
+	row.y = (this.getAttribute("Y")/( dzi_y_pixels)   ) /2;
+ pt_data.push(row);
+    });
+       point_list = pt_data;
+       var roi_object = { type: 'freehand', points: pt_data, id: region_name, label: region_name, color: "#FF00FF" }
+aperio_object_list.push(roi_object);    
+  })
+  });
+  
+  var pt1 = new OpenSeadragon.Point(0.4,0.8);
+  var pt2 = new OpenSeadragon.Point(0.2,0.5);
+  
+  
+  
+  var square_example = { type: 'rect', points: [pt1,pt2], label: 'square1' }
+  
+  aperio_object_list.push(square_example)
+  
