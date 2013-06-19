@@ -1,6 +1,9 @@
+/* this is mostly example/warpper code for key function related to aperio and base drawing examples
+these may not be needed depending on your application....*/
+
+
 
 var poi_win_old;
-
 var point_list;
 var overlay;
 var overlay_obj;
@@ -16,137 +19,81 @@ if( typeof _log !== 'function' ) {
 
 function aperio_region_to_osdAnnotation(annotation_xml_file,region_id)
 	{
-	/*this will be slowly cleaned up... but basically i will create a new annotation using the annotation.js methodology and
+	/*This function will concert an aperio XML document/annotation file into the format
+	I am now using with annotation.js
+	
+	Basically I will create a new annotation using the annotation.js methodology and
 	copy the properties over from the aperio file....*/
-			//		$('Region', XMLResponse2).each(function(){
 
 	//assuming xml document... have annotation and then regions each regino is a set of points
-	annotation_list = $('Annotation',aperioxml_annotation);
-	region_list = $('Vertices',annotation_list);
+	grid1.clearAll(); //clear previous annotations loaded into the grid
 
+	//need to pull the linecolor from aperio xml
+	//linecolor = this.getAttribute("LineColor").toString(16);
+	//linecolor =(linecolor.length < 6) ? "0" + linecolor : linecolor;								
+	
 	$('Annotation',aperioxml_annotation).each( function() {
 		grid1.addRow(this.getAttribute("Id"),"Annotation " + this.getAttribute("Id"),this.getAttribute("Id"));
 			$('Vertices', this).each(function(){
-				var data = [];
-  		 		dzi_x_pixels = viewer.viewport.contentSize.x;	
+				
+				/*need image size to scale the coordinates... points are from 0-1 not in pixel coordinates*/
+				dzi_x_pixels = viewer.viewport.contentSize.x;	
 	 			dzi_y_pixels = viewer.viewport.contentSize.y  ;
 				aspect_ratio = dzi_y_pixels/dzi_x_pixels;
-				var data = new Array();
-
+				var point_list = new Array();
 
 			$('Vertex', this).each(function(){
 				var row = new OpenSeadragon.Point();
-
-					row.x = (this.getAttribute("X")/( dzi_x_pixels)  );
+				row.x = (this.getAttribute("X")/( dzi_x_pixels)  );
 				row.y = (this.getAttribute("Y")/( dzi_y_pixels) * (aspect_ratio ) );
-///					row.x = (this.getAttribute("X") );
-///				row.y = (this.getAttribute("Y") );
-				data.push(row);
+				point_list.push(row);
 							});
-			point_list = data;
-			var overlay_obj = $.extend({},AnnotationOverlay.prototype.OPTIONS);
+					});
+						
+							});
+/*
+
+			/*var overlay_obj = $.extend({},AnnotationOverlay.prototype.OPTIONS);
 			overlay_obj = {type:'freehand', points:point_list};
 		
 			overlay = AnnotationOverlay.fromValueObject(overlay_obj);
 			overlay.attachTo(viewer);
 			annotationState.annotations.push(overlay);
-
-					});
-						
-							});
-/*			$.ajax({
-			url: val.Experiment,
-					type: 'GET',
-						dataType: 'xml',
-			success: function(returnedXMLResponse){
-			XMLResponse = returnedXMLResponse;
-$('Annotation', returnedXMLResponse).each(function(){
-grid0.addRow(1,fname,1);
-grid1.addRow(this.getAttribute("Id"),"Annotation " + this.getAttribute("Id"),this.getAttribute("Id"));
-linecolor = this.getAttribute("LineColor").toString(16);
-linecolor =(linecolor.length < 6) ? "0" + linecolor : linecolor;								
-$('Vertices', returnedXMLResponse).each(function(){
-var data = [];
-	//scaling factor gets set here....
-  		 scale_factor = 2500;
-	///the 500 is wrong for this image... i need to scale it
-//row.X = (this.getAttribute("X")/$("#txtconstant").val());
-//row.Y = (this.getAttribute("Y")/$("#txtconstant").val());
-							  })
-setTimeout(function() { draw(data, linecolor) }, 1000);
-										})
-								  																					})
-//	then region_list.each....something
-*/	
-	/* vertex list then is a set of x,y points.. */
-/*	total_regions = vertex_list.length;
-	for(i=0;i<total_regions;i++)
-		{
-		console.log(vertex_list[i].childNodes.length);
-		/* a given set of vertex points has the form Vertex X="3232.3" Y="8462.86">
-		so avertex.getAttributes('X') and getAttributes('Y') will return the data i need... */
-//		cur_region =vertex_list[i];
-//		}
-	
-	
 	
 	}
 
+
+*/
+
+
+/* this function sets up the toolbar I use in CDSA--- I only kept events related to drawing for this example */
 function setup_wsi_toolbar(id) {
 	_log('setup_wsi_toolbar', id);
 	//make an elseif
-	if (id == "query_db") {
-		//alert('db_query_win');
-		db_query_win.show();
-		get_dataprovider_list( );	
-	}
-
-	if (id == "cdsa_db_query") {
-		db_query_win.show();
-	}
-
-	if (id == "about_cdsa") {
-		portal_info_win.show();
-		}
 
 	if (id == "grab_snapshot") {
-
+	/* I want to add a feature to grab a PNG/JPG or PDF and save to desktop */
 	}
 	if (id == "show_annotations") {
 		dhxWins.window("poi_win_old").show();
 	}
-	if (id == "show_pois") {
-		dhxWins.window("poi_win_old").show();
-	}
-	if (id == "add_poi") {
-		dhxWins.window("poi_win_old").show();
-	}
-	if (id == "gen_annotations") {
-		dhxWins.window("poi_win_old").show();
-	}
-	if (id == "view_radiology") {
-		alert('Integration coming soon... for now visit xnatview.org');
-	}
-	if (id == "about_cdsa") {
-
-	}
-
+   /* For now annotations generated in my viewer are kept in a separate frame from those generated from aperio xml files */
 	if (id == "load_aperio") {
 			//			alert('load aperio window...');
 	if ( !	dhxWins.isWindow("aperio_xml") ) {   gen_aperio_annotation_box(); }
 		else{ dhxWins.window("aperio_xml").show(); }
-		
 		xml_file_list = getAperioXML_list();
-		
 		}
 
 }
+
+
 
 function gen_aperio_annotation_box(target_win_id)
 	{
 	/* This is inherited code from Dan--- this generates the basic grid/layout needed to render an Aperio XML type document */
 	
-				aperio_win = dhxWins.createWindow("aperio_xml", 400, 50, 600, 600);
+		aperio_win = dhxWins.createWindow("aperio_xml", 400, 50, 600, 600);
 				aperio_win.setText("Aperio Annotations Window");
 				
 				//aperio_win.setImagePath("imgs/");
