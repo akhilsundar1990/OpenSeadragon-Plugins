@@ -13,7 +13,6 @@ OpenSeadragon viewer object */
 
 //var annotationState = new AnnotationState(); ## this is called within annotation.js
 
-
 /* now initialize the OpenSeaDragon viewer and then the annotation state object... */
 function init() {
                 viewer = new OpenSeadragon.Viewer("container");
@@ -70,6 +69,24 @@ cur_annotatation = annotationState.annotations;
 ONE THING TO NOTE:  each object in the cur_annotation is an annotationState overlay .... these have additional
 properties/methods and is NOT identical to the simple objects I was describing above.... although they are related
 to one another.... it can get a bit confusing so please take a note of this... */
+
+
+
+/* NOW MORE USEFUL WORK CASE--- actually generating de novo annotations..... */
+annotationState.isDrawing 
+
+/*
+This flag gets set true/false (should also update a button that lets you know drawing mode is enabled
+When drawing mode is enabled, zooming is disabled (don't want to click on the image while you try and annotate it)
+
+So I have a rectangle button in my toolbar, when this is clicked.. this fires off the properties
+
+setup_wsi_toolbar/drawmode_rect gets setup
+
+*/
+
+
+
 
 
 
