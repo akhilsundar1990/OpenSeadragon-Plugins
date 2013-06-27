@@ -1,26 +1,32 @@
 Files:
-drawing_functions is deperecated drawing code before I moved to the annotations.js framework
-this is using other way of adding elements... which I have moved away from
+drawing_functions.js #  deperecated drawing code before I moved to the annotations.js framework
+                     #uses a simple DIV based method to add overlays
+                    
+annotation.js  # new framework to store/load and bind annotations and overlays to openseadragon canvas
 
 
 
+/* HOW TO USE annotation.js with openseadragon  */
+
+
+<script type="text/javascript" src="annotation.js">
 
 
 
+/*the annotation.js creates something called annotationState which is the local instantiation */
+/* AnnotationState is the main object, and then I create an instance of this which is also connected to the
+OpenSeadragon viewer object */
 
-include annotations.js at the top of your script
-
-
-annotation has a default object called
-
-AnnotationState is the main object, and then I create an instance of this which is also connected to the OpenSeadragon viewer object
+//var annotationState = new AnnotationState(); ## this is called within annotation.js
 
 
+/* now initialize the OpenSeaDragon viewer and then the annotation state object... */
+function init() {
+                viewer = new OpenSeadragon.Viewer("container");
+		//the viewer in this case is also the div the viewer is living
+		annotationState.setSeadragonViewer(viewer);
+		}
 
-In my case, the Openseadragon viewer is called in my case by doing
-
-viewer = new OpenSeadragon('viewer');
-//the viewer in this case is also the div the viewer is living
 
 
 
