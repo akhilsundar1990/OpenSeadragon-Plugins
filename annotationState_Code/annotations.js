@@ -390,16 +390,22 @@ OverlayTypes['polygon'] = PolygonOverlay;
 OverlayTypes['freehand'] = PolygonOverlay;
 $.extend(PolygonOverlay.prototype, AnnotationOverlay.prototype, {
 	_superinit: AnnotationOverlay.prototype._init,
+	_superCreateElement: AnnotationOverlay.prototype.createElement,
 			
 	_init: function(options) {
-		this.canvas = document.createElement('canvas');
-		this.$canvas = $(this.canvas).css({'height': '100%', 'width': '100%'});
 		this._superinit(options);
-		this.$canvas.appendTo(this.element);
 
 		this._lastBounds = null;
 		this._lastCanvasSize = null;
 		this._canvasPoints = null;
+	},
+
+	createElement: function() {
+      this.canvas = document.createElement('canvas');
+      this.$canvas = $(this.canvas).css({'height': '100%', 'width': '100%'});
+		var element = this._superCreateElement();
+      this.$canvas.appendTo(element);
+		return element;
 	},
 
 	addPoint: function(point) {
