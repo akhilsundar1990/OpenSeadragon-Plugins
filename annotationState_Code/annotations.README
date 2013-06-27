@@ -85,6 +85,55 @@ setup_wsi_toolbar/drawmode_rect gets setup
 
 */
 
+<button onClick="drawShape('rect')">Draw Rectangle</button>
+<button onClick="drawShape('poi)">Draw POI</button>
+<button onClick="drawShape('circle')">Draw Circle</button>
+
+/*questions to consider are wherther the drawing mode is sticky or not.. i.e. you have to click rectangle button again after
+you use the registration */
+
+
+/* one feature that needs to be added to the annotation.js is an event that gets fired when an object is
+added to the annotator--- I may or may not want to then turn off drawing mode... basically it's whether
+or not the draw button stays sticky 
+*/
+
+/*currently the setup_wsitoolbar handles all these event calls.. I am going to keep this but
+want to document the basic functionality here in case it doesn't work for your application... 
+
+AnnotationState._viewerClicked deals with the shape types, you don't need to do that.  
+If you don't want the toolbar, get rid of setupToolbar, _toolbarClicked and _stateChanged and 
+replace any references to this.toolbar.  
+But, you have to make sure whatever controls you want to use are updating the AnnotationState correctly.  
+Right now it does all of that, and reflects changes back to the toolbar
+(e.g. untoggling the 'draw' button when it disables draw mode).
+*/
+
+
+function drawShape( shape_type )
+       {
+       
+       if( shape_type == 'circle') 
+             {
+             annotationState.drawMode = 'rect';
+             //annotationState.isDrawing=true; 
+             /* so if I just set this attribute.. i can draw but it doesn't disable zooming */
+       	     annotationState.setIsDrawing(true)      
+             }
+       else if ( shape_type =='rect' )
+       	       {
+              annotationState.drawMode = 'circle';
+              annotationState.setIsDrawing(true)
+               }
+       else if (shape_type == 'poi')
+              {
+              annotationState.drawMode = 'poi';
+              annotatoinState.setIsDrawing(true);
+              }
+       
+       } 
+       
+
 
 
 
