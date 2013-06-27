@@ -27,10 +27,54 @@ function init() {
 		annotationState.setSeadragonViewer(viewer);
 		}
 
+/* The annotationState object allows both loading objects from a JSON type format and obviously also allows de novo
+annotations */
 
 
+/* First use case:  place a rectangle onto the canvas....
+
+This can be created by specifying a minimum set of properties, in this case I just specify
+type, points (which is an array), and then optionally a label for the object
+
+
+valid types:  rect,point,freehand,polygon,circle
+other properties such id id, color, can also be set
+*/
+
+
+
+var pt1 = new OpenSeadragon.Point(0.2,0.5);
+var pt2 = new OpenSeadragon.Point(0.4,0.8);
+
+var pt3 = new OpenSeadragon.Point(0.1,0.3);
+var pt4 = new OpenSeadragon.Point(0.4,0.6);
+
+
+/* the scale within openseadragon for x and y go from 0 to 1; not pixel number... although these can be 
+obviously converted as Aperio stores things in non-scaled voxel ID 
+Note: points: property wants an array...
+*/
 
 my_square = { type:'rect', points: [ pt1,pt2], label: 'rich rocks'}
+my_other_square = { type:'rect', points: [ pt3,pt4], label: 'gutman rocks'}
+
+
+/* In this case I will assume there are no other annotations I want to add, although it's possibly to push
+a stack of annotations as well */
+
+
+annotationState.clearAnnotations();  /* clear the current list of annotations 
+this is not needed in general as clearannotations's is called when loadAnnotations*/
+
+
+
+annotationState.loadAnnotations( [my_square] );  //shows square 1
+annotationState.loadAnnotations( [my_square, my_other_square] );  //shows squares 1 and 2
+annotationState.loadAnnotations( [my_other_square] ); //this only shows square 2... will wipe square 1 on load
+
+
+/* note it seems adding an annotation this way will delete all of the old annotations */
+
 
 
 
