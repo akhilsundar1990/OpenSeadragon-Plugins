@@ -4,14 +4,8 @@ drawing_functions.js #  deperecated drawing code before I moved to the annotatio
                     
 annotation.js  # new framework to store/load and bind annotations and overlays to openseadragon canvas
 
-
-
 /* HOW TO USE annotation.js with openseadragon  */
-
-
 <script type="text/javascript" src="annotation.js">
-
-
 
 /*the annotation.js creates something called annotationState which is the local instantiation */
 /* AnnotationState is the main object, and then I create an instance of this which is also connected to the
@@ -31,17 +25,14 @@ function init() {
 annotations */
 
 
-/* First use case:  place a rectangle onto the canvas....
-
+/* First use case:  
+Place a rectangle onto the canvas....
 This can be created by specifying a minimum set of properties, in this case I just specify
 type, points (which is an array), and then optionally a label for the object
-
 
 valid types:  rect,point,freehand,polygon,circle
 other properties such id id, color, can also be set
 */
-
-
 
 var pt1 = new OpenSeadragon.Point(0.2,0.5);
 var pt2 = new OpenSeadragon.Point(0.4,0.8);
@@ -59,24 +50,30 @@ my_square = { type:'rect', points: [ pt1,pt2], label: 'rich rocks'}
 my_other_square = { type:'rect', points: [ pt3,pt4], label: 'gutman rocks'}
 
 
-/* In this case I will assume there are no other annotations I want to add, although it's possibly to push
-a stack of annotations as well */
 
-
-annotationState.clearAnnotations();  /* clear the current list of annotations 
-this is not needed in general as clearannotations's is called when loadAnnotations*/
-
-
+/* clear the current list of annotations this is not needed in general as 
+clearannotations's is called when loadAnnotations*/
 
 annotationState.loadAnnotations( [my_square] );  //shows square 1
 annotationState.loadAnnotations( [my_square, my_other_square] );  //shows squares 1 and 2
 annotationState.loadAnnotations( [my_other_square] ); //this only shows square 2... will wipe square 1 on load
 
-
 /* note it seems adding an annotation this way will delete all of the old annotations */
 
 
 
+/*Interactions documentation with the annotatationState */
+annotationState.clearAnnotations();  ## clears all loaded overlays
+
+cur_annotatation = annotationState.annotations;
+/*this returns an array of objects... each object is an annotation.... with associated properties
+ONE THING TO NOTE:  each object in the cur_annotation is an annotationState overlay .... these have additional
+properties/methods and is NOT identical to the simple objects I was describing above.... although they are related
+to one another.... it can get a bit confusing so please take a note of this... */
+
+
+
+/* generating a more complicated ROI such as freehand--which consists of multiple points */
 
 aperio_object_list = new Array();
 
@@ -86,32 +83,21 @@ aperio_object_list = new Array();
 //alert(annotation_type);
     $('Region',this).each(  function()  {
    var region_name = this.getAttribute('Id');
- 
-       
- var pt_array = new Array();
-  dzi_x_pixels = viewer.viewport.contentSize.x;   
+     
+   var pt_array = new Array();
+   dzi_x_pixels = viewer.viewport.contentSize.x;   
    dzi_y_pixels = viewer.viewport.contentSize.y  ;
-
 
     var row = new OpenSeadragon.Point();
        
       $('Vertex', this).each(function(){
        row.x = (this.getAttribute("X")/( dzi_x_pixels)  );
 	row.y = (this.getAttribute("Y")/( dzi_y_pixels)   ) /2;
- pt_data.push(row);
-    });
-       point_list = pt_data;
+     pt_data.push(row);
+      });
+     point_list = pt_data;
        var roi_object = { type: 'freehand', points: pt_data, id: region_name, label: region_name, color: "#FF00FF" }
 aperio_object_list.push(roi_object);    
   })
   });
-  
-  var pt1 = new OpenSeadragon.Point(0.4,0.8);
-  var pt2 = new OpenSeadragon.Point(0.2,0.5);
-  
-  
-  
-  var square_example = { type: 'rect', points: [pt1,pt2], label: 'square1' }
-  
-  aperio_object_list.push(square_example)
   
