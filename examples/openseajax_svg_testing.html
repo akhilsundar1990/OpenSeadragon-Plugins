@@ -3,7 +3,7 @@
 
   <script src="./raphael.js" type="text/javascript"></script>
   <script type="text/javascript" src="./jquery-1.6.2.min.js"></script>    
-  <script type="text/javascript" src="openseadragon/openseadragon.js"></script>
+  <script type="text/javascript" src="openseadragon/build/openseadragon/openseadragon.js"></script>
   <script type="text/javascript" src="./openseadragon_setup_functions.js"></script>
 <!--  <script type="text/javascript" src="./openseajax-utils.js"></script> -->
 
@@ -53,7 +53,7 @@
 	var simple_box_id = 0;  //I am just creating a global variable that I will increement as I create new boxes...
 
     function init() {
-        viewer = new Seadragon.Viewer("osd_svg_container");
+        viewer = new OpenSeadragon("osd_svg_container");
          Seadragon.ControlAnchor.TOP_RIGHT;
         viewer.openDzi("http://sideshowbob.psy.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/DZI_IMAGES/ADRC/20X/ADRC59-155/ADRC59-155_1A_HE.dzi.tif.dzi");
        OpenSeadragon.addEvent(viewer.element, "mousemove", showMouse);

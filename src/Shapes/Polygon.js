@@ -43,7 +43,6 @@ OpenSeajax.Shapes.Polygon = function(points) {
    // NOTE! There seems to be a factor of 2 required. Might be because of the way
    // Zoom levels are defined in OpenSeajax. But frankly I don't know -> investigate!!
    var firstPoint = (points[0].x - minX) / maxZoom + " " +  (points[0].y - minY) / maxZoom;
-
    
 
    var svgFormattedPath = "M" + firstPoint;
@@ -58,8 +57,15 @@ OpenSeajax.Shapes.Polygon = function(points) {
 
 OpenSeajax.Shapes.Polygon.prototype.attachTo = function(viewer) {
    var anchor = OpenSeajax.toWorldCoordinates(viewer, this.origin.x, this.origin.y);
-   viewer.drawer.addOverlay(this.div, new Seadragon.Rect(anchor.x, anchor.y, 0, 0)); 
+//   viewer.drawer.addOverlay(this.div, new Seadragon.Rect(anchor.x, anchor.y, 0, 0)); 
+   viewer.drawer.addOverlay(this.div, new Seadragon.Rect(anchor.x, anchor.y, 0.1, 0.1)); 
+ //  viewer.drawer.addOverlay(this.div, new Seadragon.Rect(anchor.x, anchor.y, this.normWidth, this.normHeight)); 
+       
+	/// SO WE SHOULD DEFINITELY CHANGE above, insetad of using 0,0 i.e. only connecting a point
+         // we should make the box take the entire field of view using the min and max as points..
 
+	//Also we determine the biggest zoom possible and then the image gets called based on the current zoom....
+	
 
 	//So I am not taking into account the scaling factor which I think is causing it to not scale properly
 
@@ -67,21 +73,35 @@ OpenSeajax.Shapes.Polygon.prototype.attachTo = function(viewer) {
    var p = this.path;
    var w = this.normWidth;
    var h = this.normHeight;
-   viewer.addHandler("onanimation", function() { 
-      var zoom = viewer.viewport.getZoom(true);
-      canvas.setSize(w * zoom, h * zoom);
-      p.scale(zoom, zoom, 0, 0);
+  
+    viewer.addHandler("onanimation", function() { 
+     // var zoom = viewer.viewport.getZoom(true);
+     // canvas.setSize(w * zoom, h * zoom * aspectRatio);
+   //   p.scale(zoom, zoom, 0, 0);
    });
 }
+
+
+//scaling factor gets set here....
+//								///the 500 is wrong for this image... i need to scale it
+//								dzi_x_pixels = viewer.viewport.contentSize.x;
+//								dzi_y_pixels = viewer.viewport.contentSize.y;
+//								aspect_ratio = dzi_y_pixels / dzi_x_pixels;
+//
+//								$('Vertex', this).each(function() {
+//									var row = {};
+//									row.X = (this.getAttribute("X") / (dzi_x_pixels) * 1000  );
+//									row.Y = (this.getAttribute("Y") / (dzi_y_pixels) * (aspect_ratio * 1000) );
+//									data.push(row);
 
 OpenSeajax.Shapes.Polygon.prototype.getElement = function() {
    return this.path;
 }
 
 OpenSeajax.Shapes.Polygon.prototype.redraw = function(viewer) {
-   var zoom = viewer.viewport.getZoom(true);
-   this.paper.setSize(this.normWidth * zoom, this.normHeight * zoom);
-   this.path.scale(zoom, zoom, 0, 0); 
+  // var zoom = viewer.viewport.getZoom(true);
+//   this.paper.setSize(this.normWidth * zoom, this.normHeight * zoom);
+  // this.path.scale(zoom, zoom, 0, 0); 
 } 
 
 OpenSeajax.Shapes.Polygon.prototype.addEventListener = function(evt, listener) {
