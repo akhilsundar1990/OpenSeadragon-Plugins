@@ -9,6 +9,16 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
     <title>Openseadragon-plugins by dgutman</title>
+    
+    
+    
+    <link rel='stylesheet' 
+          type='text/css'
+          media='screen'
+          href='http://openseadragon.github.io/css/style.css'/>
+
+    <script src="http://openseadragon.github.io//openseadragon/openseadragon.min.js"></script>
+    
   </head>
 
   <body>
@@ -62,12 +72,31 @@ select a template crafted by a designer, and publish. After your page is generat
     JavaScript.
 </div>
 
+
+<div class="demoarea">
+    <div class="demoheading">
+        OpenSeadragon Viewer With Default Settings
+        <span id='consolelog'></span>
+    </div>
+    <div id="contentDiv" class="openseadragon"></div>
+</div>
+
+<script type="text/javascript">
+    // Example
+    OpenSeadragon({
+        id:              "contentDiv",
+        prefixUrl:       "/openseadragon/images/",
+        tileSources:     "http://openseadragon.github.io/example-images/highsmith/highsmith.dzi"
+    });
+</script>
+
+</div>
+
 <pre><code>$ cd your_repo_root/repo_name
 $ git fetch origin
 $ git checkout gh-pages
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
 
 <h3>
 <a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
@@ -78,7 +107,7 @@ $ git checkout gh-pages
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 <p>This code has been developed by David A Gutman (<a href="https://github.com/dgutman" class="user-mention">@dgutman</a>),
-<a>@dgutman</a>, Jake Cobb @jcobb and Rich Stoner</p>
+, Jake Cobb @jcobb and Rich Stoner</p>
 
 </p>
 
