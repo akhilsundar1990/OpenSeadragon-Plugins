@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        #SlideScanner-map {
+            width: 1720px;
+            height: 950px;
+        }
+    </style>
+    <title>SlideScanner map</title>
+</head>
+<body>
+    <div id="SlideScanner-map"></div>
+    <script src="C:/OpenSeadragon/openseadragon.min.js"></script>
+    <script type="text/javascript">
+        OpenSeadragon({
+            id: "SlideScanner-map",
+            prefixUrl: "C:/OpenSeadragon/images/",
+            navigatorSizeRatio: 1,
+            wrapHorizontal: false,
+            tileSources: {
+                height: 768,
+                width: 768,
+                tileSize: 256,
+                minLevel: 0,
+                maxLevel: 10,
+                getTileUrl: function( level, x, y ){
+                    return "D:/Data/TestOutput/RedChannel_files/" + level + "/" + x + "_" + y + ".png";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
