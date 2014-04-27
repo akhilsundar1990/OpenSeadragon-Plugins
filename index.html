@@ -276,7 +276,7 @@
           OpenSeadragon({
           id:              "contentDiv",
           prefixUrl:       "http://openseadragon.github.io/openseadragon/images/",
-          tileSources:     "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DEEPZOOM=/bigdata2/PYRAMIDS/CDSA/BLCA_Frozen/nationwidechildrens.org_BLCA.tissue_images.Level_1.86.2.0/TCGA-BL-A0C8-01A-02-BS2.EAF0E24F-6196-4668-ABAA-EC90FDC0E6FC.svs.dzi.tif.dzi"
+          tileSources:     "Example_TileSources/GreenChannel.dzi"
           });
           </script>
         
@@ -285,6 +285,23 @@
         $ git fetch origin
         $ git checkout gh-pages
         </code></pre>
+
+	<h2>MultiChannel Div with Dynamic Color</h2>
+	</p> This takes advantage of SVG color filters, and currently only works in Chrome browser
+	The trick is that I apply a color filter to each div separearately, and the div is applied client side
+	so it's extremely quick; the z-order cna also be changed although that will be coming as I learn that syntax
+	</p>
+            <div id="singleChan_contentDiv" class="openseadragon"></div>
+
+          // Example
+          OpenSeadragon({
+          id:              "singleChan_contentDiv",
+          prefixUrl:       "http://openseadragon.github.io/openseadragon/images/",
+          tileSources:     "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DEEPZOOM=/bigdata2/PYRAMIDS/CDSA/BLCA_Frozen/nationwidechildrens.org_BLCA.tissue_images.Level_1.86.2.0/TCGA-BL-A0C8-01A-02-BS2.EAF0E24F-6196-4668-ABAA-EC90FDC0E6FC.svs.dzi.tif.dzi"
+          });
+          </script>
+        
+
 
         <h3>
         <a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
