@@ -245,7 +245,16 @@
           <h3>
           <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
           <p>
-          Below are some examples of an annotation plugin developed to allow overlays in OpenSeadragon.  Additional code demonstrates
+          Below are some examples of an annotation plugin developed to allow overlays in OpenSeadragon.<br>
+	</p>
+	<h2>Example #1</h2>
+	<p>
+	In this example, the initial gray image is pre-render to Red using an SVG color filter
+	<code>
+	$('.openseadragon-canvas').css('-webkit-filter','#f_to_red')
+	</code>
+		
+	   Additional code demonstrates
           dynamic filtering of images using <i>client</i> side filters-- which are quick and allow neat effects
 
 		<div id="example_1_ctrl_region">
@@ -296,7 +305,7 @@
                     }
 
 	
-
+///$(".openseadragon-canvas").css('-webkit-filter','url(#f_to_green)')
 
 	//This block of code initializes the cnotrollers to change colors
 	   $(document).ready(function() {
