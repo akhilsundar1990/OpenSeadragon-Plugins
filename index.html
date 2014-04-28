@@ -286,7 +286,14 @@
                             $('.openseadragon-canvas').css('-webkit-filter', css);
                             //$("#filtered").css('-webkit-filter', 'url(filter.svg.php?deg=' + flt.hue_rotate+'&contrast='+flt.contrast+'&saturate='+flt.saturate+'&blur=' + flt.blur+'&inv=' + flt.invert +'#f0)');
                     }
-        
+
+
+                    var flt = {};
+                    function changeFilter(filter, val, spanItem) {
+                        flt[filter] = val;
+                        $(spanItem).html(val);
+                        updateFilters();
+                    }
 
 	
 
