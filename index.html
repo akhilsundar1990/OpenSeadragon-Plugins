@@ -266,13 +266,6 @@
 	
 
 	<!---	<div id="example_1_ctrl_region">
-		 <div id="example_1_paint_color" class="btn-group paint_color" data-toggle="buttons-radio">
-                                        <button id="red"    type="button"    class="btn btn-primary"><div style="border:10px solid red"></div></button>
-                                        <button id="green"  type="button"    class="btn btn-primary"><div style="border:10px solid green"></div></button>
-                                        <button id="blue"   type="button"    class="btn btn-primary"><div style="border:15px solid blue"></div></button>
-                                </div>
-
-                               <span id="cur_color_span">Current Color: <span id="cur_color" ></span>  </span>
 		</div>
 
 
@@ -327,18 +320,24 @@
 	</script>
 
 	<h2>MultiChannel Div with Dynamic Color</h2>
-	</p> This takes advantage of SVG color filters, and currently only works in Chrome browser
-	The trick is that I apply a color filter to each div separately, and the div is applied client side
-	so it's extremely quick
+	<p> This is similar to above, but I added controls that allow me to pick the base color for the channel
 	</p>
-		 <div id="first_image_controls">
+		 <div id="multicolor_image_controls">
+		 <div id="example_1_paint_color" class="btn-group paint_color" data-toggle="buttons-radio">
+                                        <button id="red"    type="button"    class="btn btn-primary"><div style="border:10px solid red"></div></button>
+                                        <button id="green"  type="button"    class="btn btn-primary"><div style="border:10px solid green"></div></button>
+                                        <button id="blue"   type="button"    class="btn btn-primary"><div style="border:15px solid blue"></div></button>
+                                </div>
+
+                               <span id="cur_color_span">Current Color: <span id="cur_color" ></span>  </span>
+
 		</div>
 
-            <div id="singleChan_contentDiv" class="openseadragon"></div>
+            <div id="dynColor_contentDiv" class="openseadragon"></div>
           <script type="text/javascript">
           // Example
           OpenSeadragon({
-          id:              "singleChan_contentDiv",
+          id:              "dynColor_contentDiv",
           prefixUrl:       "http://openseadragon.github.io/openseadragon/images/",
           tileSources:     "Example_TileSources/GreenChannel.dzi"
           });
