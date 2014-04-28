@@ -254,7 +254,7 @@
 			</div>
 
             
-          <h2>OpenSeadragon</h2>
+	<!--          <h2>OpenSeadragon</h2>
             <div class="elevator">
             An open-source, web-based viewer for zoomable images, implemented in pure
             JavaScript.
@@ -264,7 +264,7 @@
               OpenSeadragon Viewer With Gray Channel Converted to Blue
               <span id='consolelog'></span>
             </div>
-
+		-->
 
             <div id="contentDiv" class="openseadragon"></div>
           </div>
@@ -294,6 +294,17 @@
 		});
 	
 	
+ function updateFilters() {
+                        //http://www.html5rocks.com/en/tutorials/filters/understanding-css/
+                        console.log(flt);
+                            var css = 'contrast(' + flt.contrast + '%) brightness(' + flt.brightness + '%) url(#f3) hue-rotate(' + flt.hue_rotate + 'deg) saturate(' + flt.saturate + '%)';
+                            $('.openseadragon-canvas').css('-webkit-filter', css);
+                            //$("#filtered").css('-webkit-filter', 'url(filter.svg.php?deg=' + flt.hue_rotate+'&contrast='+flt.contrast+'&saturate='+flt.saturate+'&blur=' + flt.blur+'&inv=' + flt.invert +'#f0)');
+                    }
+        
+
+	updateFilters();
+
 	</script>
 
 
