@@ -279,7 +279,18 @@
         
 
 	<script>
+	 function updateFilters() {
+                        //http://www.html5rocks.com/en/tutorials/filters/understanding-css/
+                        console.log(flt);
+                            var css = 'contrast(' + flt.contrast + '%) brightness(' + flt.brightness + '%) url(#f3) hue-rotate(' + flt.hue_rotate + 'deg) saturate(' + flt.saturate + '%)';
+                            $('.openseadragon-canvas').css('-webkit-filter', css);
+                            //$("#filtered").css('-webkit-filter', 'url(filter.svg.php?deg=' + flt.hue_rotate+'&contrast='+flt.contrast+'&saturate='+flt.saturate+'&blur=' + flt.blur+'&inv=' + flt.invert +'#f0)');
+                    }
+        
+
 	
+
+
 	//This block of code initializes the cnotrollers to change colors
 	   $(document).ready(function() {
 	 //create the filter dialog  as a model
@@ -291,19 +302,14 @@
                         });
 		
 
+			updateFilters();
+
+
 		});
 	
 	
- function updateFilters() {
-                        //http://www.html5rocks.com/en/tutorials/filters/understanding-css/
-                        console.log(flt);
-                            var css = 'contrast(' + flt.contrast + '%) brightness(' + flt.brightness + '%) url(#f3) hue-rotate(' + flt.hue_rotate + 'deg) saturate(' + flt.saturate + '%)';
-                            $('.openseadragon-canvas').css('-webkit-filter', css);
-                            //$("#filtered").css('-webkit-filter', 'url(filter.svg.php?deg=' + flt.hue_rotate+'&contrast='+flt.contrast+'&saturate='+flt.saturate+'&blur=' + flt.blur+'&inv=' + flt.invert +'#f0)');
-                    }
-        
 
-	updateFilters();
+
 
 	</script>
 
