@@ -250,31 +250,22 @@
 	<h2>Example #1</h2>
 	<p>
 	In this example, the initial gray image is pre-render to Red using an SVG color filter
-	<code>
+	<pre><code>
 	$('.openseadragon-canvas').css('-webkit-filter','#f_to_red')
-	</code>
+	</code></pre>
 		
 	   Additional code demonstrates
           dynamic filtering of images using <i>client</i> side filters-- which are quick and allow neat effects
+              <div class="demoheading">
+              OpenSeadragon Viewer With Gray Channel Converted to Red
+              <span id='consolelog'></span>
+            </div>
 
 		<div id="example_1_ctrl_region">
 
 		<input type="button" id="show_filter" value="Apply Filters" class="btn" >
 			</div>
-
-            
-	<!--          <h2>OpenSeadragon</h2>
-            <div class="elevator">
-            An open-source, web-based viewer for zoomable images, implemented in pure
-            JavaScript.
-          </div>
-            <div class="demoarea">
-              <div class="demoheading">
-              OpenSeadragon Viewer With Gray Channel Converted to Blue
-              <span id='consolelog'></span>
-            </div>
-		-->
-
+       
             <div id="contentDiv" class="openseadragon"></div>
           </div>
           <script type="text/javascript">
