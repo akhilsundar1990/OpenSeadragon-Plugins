@@ -249,36 +249,13 @@
 	</p>
 	<h2>Example #1</h2>
 	<p>
-	In this example, the initial gray image is pre-render to Red using an SVG color filter, the jQuery syntax I agree is a bit painful
+	In this example, the initial gray image is pre-render to Red using an SVG color filter, I select the openseadragon canvas contained within the singleChan_contentDiv
 	<pre><code>
-	$('#singleChan_contentDiv .openseadragon-canvas').css('-webkit-filter','url(#f_to_red)')
+	$('#redChan_contentDiv .openseadragon-canvas').css('-webkit-filter','url(#f_to_red)')
 
 	</code></pre>
 	
-<!-- $('#wsi_paint_color button').click(function() {
-                $('#wsi_paint_color button').addClass('active').not(this).removeClass('active');
-                annotationState.lineColor = colourNameToHex(this.id);
-                $("#cur_color").css('background-color', colourNameToHex(this.id));
-        });
-  $('#wsi_paint_color button').removeClass('active'); // remove all active
-                                                                                                                // buttons... although
-                                                                                                                // maybe just setting
-                                                                                                                // the button does it
-        selector_string = "#wsi_paint_color #" + color; // selects the button based
-                                                                                                        // on color...
-        $(selector_string).addClass('active');
-        // $('#wsi_paint_color
-        // button').addClass('active').not(this).removeClass('active');
-        annotationState.lineColor = colourNameToHex(color);
-        $("#cur_color").css('background-color', colourNameToHex(color));
 
-        /* TO DO: ADD RETURN CODE AND CHECK FOR INVALID COLORS */
-}
-
-
--->
-
-	
 	   Additional code demonstrates
           dynamic filtering of images using <i>client</i> side filters-- which are quick and allow neat effects
               <div class="demoheading">
@@ -286,28 +263,24 @@
               <span id='consolelog'></span>
             </div>
 
-		<div id="example_1_ctrl_region">
-	 <div id="example_1_paint_color" class="btn-group paint_color" data-toggle="buttons-radio">
+	<!---	<div id="example_1_ctrl_region">
+		 <div id="example_1_paint_color" class="btn-group paint_color" data-toggle="buttons-radio">
                                         <button id="red"    type="button"    class="btn btn-primary"><div style="border:15px solid red"></div></button>
                                         <button id="green"  type="button"    class="btn btn-primary"><div style="border:15px solid green"></div></button>
                                         <button id="blue"   type="button"    class="btn btn-primary"><div style="border:15px solid blue"></div></button>
                                         <button id="yellow" type="button"    class="btn btn-primary"><div style="border:15px solid yellow"></div></button>
                                 </div>
 
-                                <span id="cur_color_span">Current Color:
-                                        <span id="cur_color" ></span>
-                                </span>
+                               <span id="cur_color_span">Current Color: <span id="cur_color" ></span>  </span>
 		</div>
-
-
-
 
 
 		<input type="button" id="show_filter" value="Apply Filters" class="btn" >
 			</div>
-       
-            <div id="contentDiv" class="openseadragon"></div>
+       			-->
+            <div id="redChan_contentDiv" class="openseadragon"></div>
           </div>
+
           <script type="text/javascript">
           // Example
           OpenSeadragon({
@@ -315,10 +288,8 @@
           prefixUrl:       "http://openseadragon.github.io/openseadragon/images/",
           tileSources:     "Example_TileSources/GreenChannel.dzi"
           });
-          </script>
-        
+
 	$('#singleChan_contentDiv .openseadragon-canvas').css('-webkit-filter','url(#f_to_red)');
-	<script>
 	 function updateFilters() {
                         //http://www.html5rocks.com/en/tutorials/filters/understanding-css/
                         console.log(flt);
@@ -335,7 +306,6 @@
                         updateFilters();
                     }
 
-//	$($('.openseadragon-canvas')[0]).css('-webkit-filter','url(#f_to_red)')
 
 //only turns the first element to red..
 ///$(".openseadragon-canvas").css('-webkit-filter','url(#f_to_green)')
@@ -453,6 +423,28 @@
 
         </div>
 
-    
+    <!-- $('#wsi_paint_color button').click(function() {
+                $('#wsi_paint_color button').addClass('active').not(this).removeClass('active');
+                annotationState.lineColor = colourNameToHex(this.id);
+                $("#cur_color").css('background-color', colourNameToHex(this.id));
+        });
+  $('#wsi_paint_color button').removeClass('active'); // remove all active
+                                                                                                                // buttons... although
+                                                                                                                // maybe just setting
+                                                                                                                // the button does it
+        selector_string = "#wsi_paint_color #" + color; // selects the button based
+                                                                                                        // on color...
+        $(selector_string).addClass('active');
+        // $('#wsi_paint_color
+        // button').addClass('active').not(this).removeClass('active');
+        annotationState.lineColor = colourNameToHex(color);
+        $("#cur_color").css('background-color', colourNameToHex(color));
+
+        /* TO DO: ADD RETURN CODE AND CHECK FOR INVALID COLORS */
+	}
+
+
+-->
+
   </body>
 </html>
